@@ -38,7 +38,7 @@ jobs:
 
 
 workflows:
-  UdaPeople CI/CD Workflow:
+  UdaPeople Workflow:
     jobs:
       - build-frontend
       - build-backend
