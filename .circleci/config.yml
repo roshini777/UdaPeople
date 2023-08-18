@@ -1,5 +1,17 @@
 version: 2.1
 
+orbs:
+  
+  slack: circleci/slack@4.10.1
+
+commands:
+
+  slack_notifcation:
+    steps:
+      - slack/notify:
+          event: fail
+          channel: ci-cd
+          template: basic_fail_1
 jobs:
   build-frontend:
     docker:
@@ -17,6 +29,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-dependencies 
+      - slack_notifcation
 
   build-backend:
     docker:
@@ -34,7 +47,8 @@ jobs:
             npm run build
       - save_cache:
           paths: [backend/node_modules]
-          key: backend-dependencies             
+          key: backend-dependencies
+      - slack_notifcation             
 
   test-frontend:
     docker:
@@ -49,6 +63,7 @@ jobs:
             cd frontend
             npm install
             npm run test
+      - slack_notifcation            
 
   test-backend:
     docker:
@@ -63,6 +78,7 @@ jobs:
             cd backend
             npm install
             npm run test
+      - slack_notifcation            
 
   scan-frontend:
     docker:
@@ -79,6 +95,7 @@ jobs:
             npm audit fix --force --audit-level=critical
             npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical
+      - slack_notifcation
 
   scan-backend:
     docker:
@@ -94,7 +111,8 @@ jobs:
              npm install
              npm audit fix --force --audit-level=critical
              npm audit fix --force --audit-level=critical
-             npm audit --audit-level=critical             
+             npm audit --audit-level=critical 
+      - slack_notifcation            
 
 workflows:
   UdaPeople Workflow:
