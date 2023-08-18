@@ -245,6 +245,12 @@ jobs:
     steps:
       - checkout
       - install_awscli
+
+      - attach_workspace:
+          at: ~/
+      
+      - restore_cache:
+          keys: [backend-dependencies]
       - run:
           name: Run migrations
           command: |
