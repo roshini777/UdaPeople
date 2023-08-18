@@ -13,6 +13,23 @@ commands:
           channel: ci-cd
           template: basic_fail_1
 
+  install_awscli:
+    steps:
+      - run:
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+
+  install_ansible:
+    steps:
+      - run:
+          command: |
+            sudo apt update
+            sudo apt install software-properties-common
+            sudo add-apt-repository --yes --update ppa:ansible/ansible
+            sudo apt install ansible
+
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -169,6 +186,27 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
 
+      - destroy-environment 
+
+  configure-infrastructure:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - install_awscli
+      - install_ansible
+      - add_ssh_keys:
+          fingerprints: ["69:2d:56:e2:d1:20:28:c4:3d:f6:3c:6b:63:21:ba:0d"]
+      
+      - attach_workspace:
+          at: ~/
+
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment            
 
 workflows:
@@ -189,4 +227,6 @@ workflows:
           filters:
             branches:
               only: [main]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
 
