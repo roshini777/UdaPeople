@@ -474,6 +474,6 @@ workflows:
       #    requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [deploy-backend, deploy-frontend]
-      # - cleanup:
-      #     requires: [cloudfront-update]      
+      - cleanup:
+          requires: [cloudfront-update]      
 
