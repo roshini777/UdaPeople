@@ -9,12 +9,9 @@
   become: yes
   apt:
     autoremove: yes
-- name: install deps
-  become: yes
-  apt:
-    name: ['nodejs', 'npm']
-    state: latest
-    update_cache: yes
+- name: "Installing Node Dependencies"
+  shell: |
+      npm i
 - name: install pm2
   become: yes
   npm:
