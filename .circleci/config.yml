@@ -377,7 +377,7 @@ jobs:
           name: deploy backend
           command: |
             export TYPEORM_MIGRATIONS_DIR=./migrations
-            export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
+            export TYPEORM_ENTITIES=./modules/**/*.entity.ts
             export TYPEORM_MIGRATIONS=./migrations/*.ts
 
             curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
