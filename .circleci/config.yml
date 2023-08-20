@@ -360,19 +360,20 @@ jobs:
           name: Install dependencies
           command: |
             cd backend
-            npm install 
+            npm install
+            apk add --update --no-cache tar gzip nodejs npm aws-cli ansible 
 
       - run:
           name: package backend
           command: |
             cd backend
+            npm install
             npm run build
-            # Zip the directory
-            tar -czf artifact.tar.gz dist/* package*
-
             cd ..
-            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
-
+            tar -C backend -czvf artifact.tar.gz .
+            mkdir -p ~/project/.circleci/ansible/roles/deploy/files/
+            mv artifact.tar.gz .circleci/ansible/roles/deploy/files/artifact.tar.gz
+            
       - run:
           name: deploy backend
           command: |
