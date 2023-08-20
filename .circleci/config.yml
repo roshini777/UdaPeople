@@ -71,7 +71,8 @@ commands:
             then
               cd ~/project/backend
               npm install
-              npm run migration:revert
+              npm run build
+              npm run migrations:revert
             fi
 
 jobs:
@@ -504,10 +505,10 @@ workflows:
       #    requires: [configure-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
-      - deploy-frontend:
-          requires: [deploy-backend]
       - smoke-test:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
