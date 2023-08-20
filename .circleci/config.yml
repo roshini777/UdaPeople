@@ -500,18 +500,18 @@ workflows:
               only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      - add-prometheus-node-exporter:
+      #- add-prometheus-node-exporter:
+      #    requires: [configure-infrastructure]
+      - run-migrations:
           requires: [configure-infrastructure]
-      #- run-migrations:
-      #    requires: [configure-infrastructure]
-      #- deploy-backend:
-      #    requires: [configure-infrastructure]
-      #- deploy-frontend:
-      #    requires: [deploy-backend]
-      #- smoke-test:
-      #    requires: [deploy-backend, deploy-frontend]
-      #- cloudfront-update:
-      #    requires: [deploy-backend, deploy-frontend]
-      #- cleanup:
-      #    requires: [cloudfront-update]      
+      - deploy-backend:
+          requires: [run-migrations]
+      - deploy-frontend:
+          requires: [deploy-backend]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
+      - cloudfront-update:
+          requires: [smoke-test]
+      - cleanup:
+          requires: [cloudfront-update]      
 
