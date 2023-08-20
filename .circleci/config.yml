@@ -361,7 +361,6 @@ jobs:
           command: |
             cd backend
             npm install
-            apk add --update --no-cache tar gzip nodejs npm aws-cli ansible 
 
       - run:
           name: package backend
