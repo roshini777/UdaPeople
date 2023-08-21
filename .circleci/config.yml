@@ -425,8 +425,8 @@ jobs:
               exit 1
             fi 
 
-      #- destroy-environment    
-      #- revert-migrations
+      - destroy-environment    
+      - revert-migrations
 
   cloudfront-update:
     docker:
@@ -453,8 +453,8 @@ jobs:
               --stack-name "InitialStack" \
               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" 
 
-      #- destroy-environment    
-      #- revert-migrations 
+      - destroy-environment    
+      - revert-migrations 
 
   cleanup:
     docker:
@@ -501,10 +501,10 @@ workflows:
               only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      #- add-prometheus-node-exporter:
-      #    requires: [configure-infrastructure]
-      - run-migrations:
+      - add-prometheus-node-exporter:
           requires: [configure-infrastructure]
+      - run-migrations:
+          requires: [add-prometheus-node-exporter]
       - deploy-frontend:
           requires: [run-migrations]
       - deploy-backend:
