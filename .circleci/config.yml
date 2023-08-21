@@ -376,9 +376,9 @@ jobs:
       - run:
           name: deploy backend
           command: |
-            export TYPEORM_MIGRATIONS_DIR=./migrations
-            export TYPEORM_ENTITIES=./modules/**/*.entity.ts
-            export TYPEORM_MIGRATIONS=./migrations/*.ts
+            export TYPEORM_MIGRATIONS_DIR=./src/migrations
+            export TYPEORM_ENTITIES=./src/modules/**/*.entity.ts
+            export TYPEORM_MIGRATIONS=./src/migrations/*.ts
 
             curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             cd .circleci/ansible
