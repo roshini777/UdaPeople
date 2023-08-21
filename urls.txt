@@ -1,0 +1,16 @@
+List of URLs for review: 
+
+[URL01] - GitHub Link
+https://github.com/roshini777/UdaPeople
+
+[URL02] - S3 Bucket
+http://udapeople-fed1a1c.s3-website-us-east-1.amazonaws.com 
+
+[URL03] - CloudFront
+http://d3hnjh7qnfgpnk.cloudfront.net
+
+[URL04] - Backend API
+http://3.91.18.165:3030/api/status
+
+[URL05] - Prometheus Endpoint
+http://ec2-44-212-36-118.compute-1.amazonaws.com:9090/targets 
